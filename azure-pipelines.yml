@@ -1,0 +1,33 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- script: echo Hello, world!
+  displayName: 'Run a one-line script'
+
+- task: AzureResourceManagerTemplateDeployment@3
+  inputs:
+    deploymentScope: 'Resource Group'
+    azureResourceManagerConnection: 'Pay-As-You-Go (d4f5576f-aadc-4149-8880-3b22214388b6)'
+    subscriptionId: 'd4f5576f-aadc-4149-8880-3b22214388b6'
+    action: 'Create Or Update Resource Group'
+    resourceGroupName: 'ARMTUTORIAL'
+    location: 'West India'
+    templateLocation: 'URL of the file'
+    csmFileLink: 'https://raw.githubusercontent.com/kopalnema/ARMTUTORIAL-repo/main/azuredeploy.json'
+    csmParametersFileLink: '-projectName [FIRST_PIPELINE]'
+    deploymentMode: 'Incremental'
+    deploymentName: 'ARMTUTORIAL'
+
+- script: |
+    echo Add other tasks to build, test, and deploy your project.
+    echo See https://aka.ms/yaml
+  displayName: 'Run a multi-line script'
